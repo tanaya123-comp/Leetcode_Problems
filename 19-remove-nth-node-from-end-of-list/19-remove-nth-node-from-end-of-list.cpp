@@ -11,40 +11,36 @@
 class Solution {
 public:
     
-    int sizeOfList(ListNode* head)
-    {
-        int len=0;
-        while(head!=NULL)
-        {
-            len++;
-            head=head->next;
-        }
-        return len;
-    }
+   
     
-    ListNode* removeNthFromEnd(ListNode* head, int n) {
-        
-        int len=sizeOfList(head);
-        int x=len-n+1;
-        int num=0;
-        ListNode* t,*prev;
-        t=head;
-        prev=NULL;
-        while(t!=NULL)
+    ListNode* removeNthFromEnd(ListNode* head, int n) 
+    {
+        int siz=0;
+        ListNode* h;
+        h=head;
+        while(h!=NULL)
         {
-            num++;
-            if(num==x)
-            {
-                break;
-            }
-            prev=t;
-            t=t->next;
+            siz++;
+            h=h->next;
+        }
+        int i=0;
+        h=head;
+        ListNode* prev=NULL;
+        while(i<(siz-n)&&h!=NULL)
+        {
+            prev=h;
+            h=h->next;
+            i++;
         }
         if(prev!=NULL)
-        prev->next=t->next;
-        else{
+        {
+            prev->next=h->next;
+        }
+        else
+        {
             head=head->next;
         }
         return head;
+        
     }
 };
