@@ -11,14 +11,18 @@
  */
 class Solution {
 public:
+    TreeNode* prev;
     
-    void preorder(TreeNode* root,queue<TreeNode*> &st)
+    void preorder(TreeNode* root)
     {
         if(root!=NULL)
         {
-            st.push(root);
-            preorder(root->left,st);
-            preorder(root->right,st);
+            preorder(root->right);
+            preorder(root->left);
+         
+            root->right=prev;
+            root->left=NULL;
+            prev=root;
         }
     }
     
@@ -29,24 +33,8 @@ public:
             return;
         }
         
-        queue<TreeNode*> st;
-        preorder(root,st);
+        prev=NULL;
         
-        while(!st.empty())
-        {
-            TreeNode* t=st.front();
-            st.pop();
-            t->left=NULL;
-            if(!st.empty())
-            {
-                t->right=st.front();
-            }
-            else
-            {
-                t->right=NULL;
-            }
-        }
-        
-        
+        preorder(root);
     }
 };
