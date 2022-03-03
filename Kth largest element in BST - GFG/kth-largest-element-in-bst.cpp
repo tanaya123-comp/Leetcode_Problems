@@ -97,31 +97,31 @@ struct Node {
 class Solution
 {
     public:
-    
-    int x;
     int n;
+    int count;
+    int number;
     
-    void solve(Node* root,int &count,int K)
+    void kthLargestEle(Node* t,int K)
     {
-        if(root!=NULL)
+        if(t!=NULL)
         {
-            solve(root->left,count,K);
+            kthLargestEle(t->left,K);
             count++;
             if(count==K)
             {
-                x=root->data;
+                number=t->data;
             }
-            solve(root->right,count,K);
+            kthLargestEle(t->right,K);
         }
     }
     
-    void solve2(Node* root)
+    void countNodes(Node* t)
     {
-        if(root!=NULL)
+        if(t!=NULL)
         {
-            solve2(root->left);
+            countNodes(t->left);
             n++;
-            solve2(root->right);
+            countNodes(t->right);
         }
     }
     
@@ -129,10 +129,11 @@ class Solution
     {
         //Your code here
         n=0;
-        solve2(root);
-        int count=0;
-        solve(root,count,n-K+1);
-        return x;
+        countNodes(root);
+        count=0;
+        kthLargestEle(root,n-K+1);
+        return number;
+        
     }
 };
 
