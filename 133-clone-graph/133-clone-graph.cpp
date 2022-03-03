@@ -21,34 +21,33 @@ public:
 
 class Solution {
 public:
+    unordered_map<Node*,Node*> mp;
     
-    unordered_map<int,Node*> s;
-    
-    Node* clone(Node* root)
+    Node* cloneGraphRec(Node* node)
     {
-        if(s.find(root->val)!=s.end())
+        if(node==NULL)
         {
-            return s[root->val];
+            return NULL;
         }
-        Node* newNode=new Node(root->val);
-          s.insert({newNode->val,newNode});
-        for(auto x:root->neighbors)
+        else if(mp.find(node)!=mp.end())
         {
-            newNode->neighbors.push_back(clone(x));
+            return mp[node];
         }
-      
+        Node* newNode=new Node(node->val);
+        mp.insert({node,newNode});
+        for(int i=0;i<node->neighbors.size();i++)
+        {
+            newNode->neighbors.push_back(cloneGraphRec(node->neighbors[i]));
+        }
         return newNode;
     }
     
-    
     Node* cloneGraph(Node* node) {
-        
         if(node==NULL)
         {
-            return node;
+            return NULL;
         }
         
-        return clone(node);
-        
+        return cloneGraphRec(node);
     }
 };
