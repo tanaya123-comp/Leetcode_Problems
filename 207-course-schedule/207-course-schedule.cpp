@@ -1,44 +1,48 @@
 class Solution {
 public:
-    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-        
-        vector<int> indegree(numCourses,0);
-        vector<int> adj[numCourses];
-        queue<int> q;
-        int count=0;
-        int i,j,n;
-        n=prerequisites.size();
-        for(i=0;i<n;i++)
+    
+    bool dfs(int index,vector<int> adj[],vector<bool> &visited,vector<bool> visitedDFS)
+    {
+        visited[index]=true;
+        visitedDFS[index]=true;
+        for(int i=0;i<adj[index].size();i++)
         {
-            indegree[prerequisites[i][1]]++;
-            adj[prerequisites[i][0]].push_back(prerequisites[i][1]);
+            if(visited[adj[index][i]]==false)
+            {
+               if(dfs(adj[index][i],adj,visited,visitedDFS))
+               {
+                   return true;
+               }
+            }
+            else if(visitedDFS[adj[index][i]]==true) {
+                return true;
+            }
         }
+        visitedDFS[index]=false;
+        return false;
+    }
+    
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) 
+    {
+        vector<int> adj[numCourses];
+        vector<bool> visited(numCourses,false);
+        vector<bool> visitedDFS(numCourses,false);
+        int i,j;
+        for(i=0;i<prerequisites.size();i++)
+        {
+            adj[prerequisites[i][1]].push_back(prerequisites[i][0]);
+        }
+        
         for(i=0;i<numCourses;i++)
         {
-            if(indegree[i]==0)
+            if(visited[i]==false)
             {
-                q.push(i);
-            }
-        }
-        while(!q.empty())
-        {
-            i=q.front();
-            q.pop();
-            for(j=0;j<adj[i].size();j++)
-            {
-                indegree[adj[i][j]]--;
-                if(indegree[adj[i][j]]==0)
+                if(dfs(i,adj,visited,visitedDFS))
                 {
-                    q.push(adj[i][j]);
+                    return false;
                 }
             }
-            count++;
         }
-        if(count==numCourses)
-        {
-            return true;
-        }
-        return false;
-        
+        return true;
     }
 };
