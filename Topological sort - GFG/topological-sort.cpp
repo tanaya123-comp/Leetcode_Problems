@@ -7,39 +7,40 @@ class Solution
 {
 	public:
 	//Function to return list containing vertices in Topological order. 
+	
+	void DFS( vector<int> adjList[],vector<bool> &visited,int index,stack<int> &st)
+	{
+	    visited[index]=true;
+	    for(int i=0;i<adjList[index].size();i++)
+	    {
+	        if(visited[adjList[index][i]]==false)
+	        {
+	            DFS(adjList,visited,adjList[index][i],st);
+	        }
+	    }
+	    st.push(index);
+	}
+	
 	vector<int> topoSort(int V, vector<int> adjList[]) 
 	{
-	    int i,j,count=0;
+	    int i,count=0;
 	    vector<int> ans;
-	    vector<int> indegree(V,0);
-	    queue<int> q;
+	    stack<int> st;
+	    vector<bool> visited(V,false);
 	    for(i=0;i<V;i++)
 	    {
-	     //  adjList[adj[i][0]].push_back(adj[i][1]);
-	        for(j=0;j<adjList[i].size();j++)
-	        indegree[adjList[i][j]]++;
-	    }
-	    for(i=0;i<V;i++)
-	    {
-	        if(indegree[i]==0)
+	        if(visited[i]==false)
 	        {
-	            q.push(i);
+	            DFS(adjList,visited,i,st);
 	        }
 	    }
-	    while(!q.empty())
+	    
+	    while(!st.empty())
 	    {
-	        i=q.front();
-	        q.pop();
-	        ans.push_back(i);
-	        for(j=0;j<adjList[i].size();j++)
-	        {
-	            indegree[adjList[i][j]]--;
-	            if(indegree[adjList[i][j]]==0)
-	            {
-	                q.push(adjList[i][j]);
-	            }
-	        }
+	        ans.push_back(st.top());
+	        st.pop();
 	    }
+	   
 	    return ans;
 	  
 	    
