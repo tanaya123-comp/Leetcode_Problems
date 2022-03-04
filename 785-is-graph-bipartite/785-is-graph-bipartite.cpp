@@ -1,49 +1,43 @@
 class Solution {
 public:
     
-    bool isBipartiteBFS(vector<vector<int> > graph,int index,vector<int> &color)
+    bool isBipartiteDFS(vector<vector<int>>& graph,int index,vector<int> &color)
     {
-        int i,j;
-        queue<int> q;
-        color[index]=0;
-        q.push(index);
-        while(!q.empty())
+        for(int i=0;i<graph[index].size();i++)
         {
-            i=q.front();
-            q.pop();
-            for(j=0;j<graph[i].size();j++)
+            int neighbor=graph[index][i];
+            if(color[neighbor]==-1)
             {
-                if(color[graph[i][j]]==-1)
-                {
-                    color[graph[i][j]]=1-color[i];
-                    q.push(graph[i][j]);
-                }
-                else if(color[graph[i][j]]==color[i])
+                color[neighbor]=1-color[index];
+                 if(!isBipartiteDFS(graph,neighbor,color))
                 {
                     return false;
                 }
             }
+            else if(color[neighbor]==color[index])
+            {
+                return false;
+            }
         }
         return true;
-        
     }
     
     bool isBipartite(vector<vector<int>>& graph) {
         
-        int n,i;
+        int n,i,j;
         n=graph.size();
         vector<int> color(n,-1);
         for(i=0;i<n;i++)
         {
             if(color[i]==-1)
             {
-                 if(!isBipartiteBFS(graph,i,color))
-                 {
-                     return false;
-                 }
+                color[i]=0;
+                if(!isBipartiteDFS(graph,i,color))
+                {
+                    return false;
+                }
             }
         }
         return true;
-        
     }
 };
