@@ -12,21 +12,26 @@ class Solution
     {
         int i,j;
         vector<int> dist(V,INT_MAX);
+        
         priority_queue<pair<int,int> , vector<pair<int,int> >, greater<pair<int,int> > > pq;
         dist[S]=0;
+        
         pq.push(make_pair(0,S));
+        
         while(!pq.empty())
         {
             pair<int,int> p=pq.top();
             pq.pop();
-            int dis=p.first;
-            int src=p.second;
-            for(i=0;i<adj[src].size();i++)
+            
+            int distance=p.first;
+            
+            int source=p.second;
+            for(i=0;i<adj[source].size();i++)
             {
-                if(dis+adj[src][i][1]<dist[adj[src][i][0]])
+                if(distance+adj[source][i][1]<dist[adj[source][i][0]])
                 {
-                    dist[adj[src][i][0]]=dis+adj[src][i][1];
-                    pq.push(make_pair(dist[adj[src][i][0]],adj[src][i][0]));
+                    dist[adj[source][i][0]]=distance+adj[source][i][1];
+                    pq.push(make_pair(dist[adj[source][i][0]],adj[source][i][0]));
                 }
             }
         }
