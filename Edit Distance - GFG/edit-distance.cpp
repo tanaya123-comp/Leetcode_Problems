@@ -6,43 +6,39 @@ using namespace std;
 class Solution {
   public:
   
-  int dp[105][105];
   
-    int editDistanceDP(string s,string t,int n,int m)
-    {
-        if(n==0)
-        {
-            return dp[n][m]=m;
-        }
-        if(m==0)
-        {
-            return dp[n][m]=n;
-        }
-        if(dp[n][m]!=-1)
-        {
-            return dp[n][m];
-        }
-        if(s[n-1]==t[m-1])
-        {
-            return dp[n][m]=editDistanceDP(s,t,n-1,m-1);
-        }
-        else
-        {
-            return dp[n][m]=min(1+editDistanceDP(s,t,n,m-1),min(1+editDistanceDP(s,t,n-1,m),1+editDistanceDP(s,t,n-1,m-1)));
-        }
-    }
   
     int editDistance(string s, string t) {
         // Code here
-        for(int i=0;i<=104;i++)
+        int n,m;
+        n=s.length();
+        m=t.length();
+        int dp[n+1][m+1];
+        
+        for(int i=0;i<=n;i++)
         {
-            for(int j=0;j<=104;j++)
+            for(int j=0;j<=m;j++)
             {
-                dp[i][j]=-1;
+                if(i==0)
+                {
+                    dp[i][j]=j;
+                }
+                else if(j==0)
+                {
+                    dp[i][j]=i;
+                }
+                else if(s[i-1]==t[j-1])
+                {
+                    dp[i][j]=dp[i-1][j-1];
+                }
+                else
+                {
+                    dp[i][j]=min(1+dp[i][j-1],min(1+dp[i-1][j],1+dp[i-1][j-1]));
+                }
             }
         }
         
-        return editDistanceDP(s,t,s.length(),t.length());
+        return dp[n][m];
         
     }
 };
