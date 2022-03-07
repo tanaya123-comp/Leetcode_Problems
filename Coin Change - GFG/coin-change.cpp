@@ -6,40 +6,36 @@ using namespace std;
 class Solution {
   public:
   
-  long long int dp[1001][1001];
-  
-  long long int countRec(int S[],int sum,int n)
-  {
-      if(sum==0)
-      {
-          return dp[sum][n]=1;
-      }
-      if(n==0)
-      {
-          return dp[sum][n]=0;
-      }
-      if(dp[sum][n]!=-1)
-      {
-          return dp[sum][n];
-      }
-      if(S[n-1]<=sum)
-      {
-          return dp[sum][n]=countRec(S,sum-S[n-1],n)+countRec(S,sum,n-1);
-      }
-      return dp[sum][n]=countRec(S,sum,n-1);
-  }
   
     long long int count(int S[], int m, int n) {
         
-        for(int i=0;i<=1000;i++)
+        
+        long long int dp[m+1][n+1];
+        
+        for(int i=0;i<=m;i++)
         {
-            for(int j=0;j<=1000;j++)
+            for(int j=0;j<=n;j++)
             {
-                dp[i][j]=-1;
+                if(j==0)
+                {
+                    dp[i][j]=1;
+                }
+                else if(i==0)
+                {
+                    dp[i][j]=0;
+                }
+                else if(S[i-1]<=j)
+                {
+                    dp[i][j]=dp[i][j-S[i-1]]+dp[i-1][j];
+                }
+                else
+                {
+                    dp[i][j]=dp[i-1][j];
+                }
             }
         }
         
-        return countRec(S,n,m);
+        return dp[m][n];
         
 
         
