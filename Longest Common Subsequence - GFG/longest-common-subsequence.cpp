@@ -11,41 +11,33 @@ class Solution
     public:
     //Function to find the length of longest common subsequence in two strings.
     
-    int dp[1001][1001];
-    
-    int lcsDP(string s1,string s2,int x,int y)
-    {
-        if(x==0||y==0)
-        {
-            return dp[x][y]=0;
-        }
-        if(dp[x][y]!=-1)
-        {
-            return dp[x][y];
-        }
-        if(s1[x-1]==s2[y-1])
-        {
-            return dp[x][y]=1+lcsDP(s1,s2,x-1,y-1);
-        }
-        else
-        {
-            return dp[x][y]=max(lcsDP(s1,s2,x,y-1),lcsDP(s1,s2,x-1,y));
-        }
-    }
+   
     
     int lcs(int x, int y, string s1, string s2)
     {
         // your code here
-        for(int i=0;i<1001;i++)
+        int dp[x+1][y+1];
+        
+        for(int i=0;i<=x;i++)
         {
-            for(int j=0;j<1001;j++)
+            for(int j=0;j<=y;j++)
             {
-                dp[i][j]=-1;
+                if(i==0||j==0)
+                {
+                    dp[i][j]=0;
+                }
+                else if(s1[i-1]==s2[j-1])
+                {
+                    dp[i][j]=1+dp[i-1][j-1];
+                }
+                else
+                {
+                    dp[i][j]=max(dp[i-1][j],dp[i][j-1]);
+                }
             }
         }
         
-        
-        return lcsDP(s1,s2,x,y);
+        return dp[x][y];
         
         
     }
