@@ -9,38 +9,31 @@ using namespace std;
 
 class Solution{
 public:
-    int dp[1001][1001];
-
-    int mcmDP(int arr[],int i,int j)
-    {
-        if(i==j)
-        {
-            return dp[i][j]=0;
-        }
-        if(dp[i][j]!=-1)
-        {
-            return dp[i][j];
-        }
-        int ans=INT_MAX;
-        for(int k=i;k<j;k++)
-        {
-            int count=mcmDP(arr,i,k)+mcmDP(arr,k+1,j)+arr[i-1]*arr[k]*arr[j];
-            
-            ans=min(ans,count);
-        }
-        return dp[i][j]=ans;
-    }
+   
 
     int matrixMultiplication(int N, int arr[])
     {
-        for(int i=0;i<=1000;i++)
+        int dp[N+1][N+1];
+        for(int i=0;i<=N;i++)
         {
-            for(int j=0;j<=1000;j++)
-            {
-                dp[i][j]=-1;
-            }
+            dp[i][i]=0;
         }
-        return mcmDP(arr,1,N-1);
+        int ans;
+        for(int k=2;k<N;k++)
+        {
+            for(int i=1;i<=N-k;i++)
+            {
+                int j=i+k-1;
+                ans=INT_MAX;
+                for(int t=i;t<j;t++)
+                {
+                    ans=min(ans,dp[i][t]+dp[t+1][j]+arr[i-1]*arr[t]*arr[j]);
+                }
+                dp[i][j]=ans;
+            }
+            
+        }
+        return dp[1][N-1];
     }
 };
 
