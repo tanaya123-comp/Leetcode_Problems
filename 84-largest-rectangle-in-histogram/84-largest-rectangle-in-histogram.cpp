@@ -2,38 +2,66 @@ class Solution {
 public:
     int largestRectangleArea(vector<int>& heights) {
         
-       vector<int> nsr, nsl;
-        stack<int> st1, st2;
-        
-        for(int i=0; i<heights.size(); i++) {
-            while(!st1.empty() && heights[st1.top()] >= heights[i])
-                st1.pop();
-            if(st1.empty())
-                nsl.push_back(-1);
+      int siz,i,j;
+        siz=heights.size();
+        vector<int> left(siz);
+        vector<int> right(siz);
+        stack<int> s;
+        left[0]=0;
+        s.push(0);
+        for(i=1;i<siz;i++)
+        {
+                while(!s.empty()&&heights[s.top()]>=heights[i])
+                {
+                    s.pop();
+                }
+                if(s.empty())
+                {
+                    left[i]=0;
+                }
+                else
+                {
+                    left[i]=s.top()+1;
+                }
+                s.push(i);
+        }
+        // for(i=0;i<siz;i++)
+        // {
+        //     cout<<left[i]<<"\n";
+        // }
+        while(!s.empty())
+        {
+            s.pop();
+        }
+        right[siz-1]=siz-1;
+        s.push(siz-1);
+        for(i=siz-2;i>=0;i--)
+        {
+             while(!s.empty()&&heights[s.top()]>=heights[i])
+            {
+                 
+                s.pop();
+            }
+            if(s.empty())
+            {
+                right[i]=siz-1;
+            }
             else
-                nsl.push_back(st1.top());
-            
-            st1.push(i);
+            {
+                right[i]=s.top()-1;
+            }
+            s.push(i);
         }
-        
-        for(int i=heights.size()-1; i>=0; i--) {
-            while(!st2.empty() && heights[st2.top()] >= heights[i])
-                st2.pop();
-            if(st2.empty())
-                nsr.push_back(heights.size());
-            else
-                nsr.push_back(st2.top());
-            
-            st2.push(i);
+        // for(i=0;i<siz;i++)
+        // {
+        //     cout<<right[i]<<"\n";
+        // }
+        int ans=INT_MIN;
+        for(i=0;i<siz;i++)
+        {
+           // cout<<left[i]<<" "<<right[i]<<"\n";
+            ans=max(ans,((right[i]-left[i]+1)*heights[i]));
         }
-        reverse(nsr.begin(), nsr.end());
-        
-        vector<int> width;
-        
-        for(int i=0; i<heights.size(); i++) {
-            width.push_back((nsr[i]-nsl[i]-1) * heights[i]);
-        }
-        
-        return *max_element(width.begin(), width.end());
+        return ans;
     }
 };
