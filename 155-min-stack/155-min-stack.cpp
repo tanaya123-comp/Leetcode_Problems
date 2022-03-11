@@ -1,57 +1,58 @@
 class MinStack {
 public:
     
-    stack<int> mainStack;
-    stack<int> minStack;
-    
+    stack<long long> s;
+    long long minele;
     
     MinStack() {
-        while(!mainStack.empty())
-        {
-            mainStack.pop();
-        }
-        while(!minStack.empty())
-        {
-            minStack.pop();
-        }
         
     }
     
     void push(int val) {
-        
-       
-        if(mainStack.empty())
+        long long val1=val;
+        if(s.empty())
         {
-             mainStack.push(val);
-            minStack.push(val);
+            s.push(val1);
+            minele=val1;
         }
-        else if(minStack.top()>val)
+        else if(val1<minele)
         {
-             mainStack.push(val);
-            minStack.push(val);
+            //long long val1=val;
+            s.push((2*val1)-minele);
+            minele=val1;
         }
         else
         {
-            mainStack.push(val);
-            int x=minStack.top();
-            minStack.push(x);
+            s.push(val1);
+        }
+    }
+    
+    void pop() {
+        
+        long long t=s.top();
+        s.pop();
+        
+        if(t<minele)
+        {
+            minele=2*minele-t;
+        }
+    }
+    
+    int top() {
+        
+        if(s.top()>minele)
+        {
+            return s.top();
+        }
+        else
+        {
+            return minele;
         }
         
     }
     
-    void pop() {
-        mainStack.pop();
-        minStack.pop();
-    }
-    
-    int top() {
-        int val=mainStack.top();
-        return val;
-    }
-    
     int getMin() {
-        int mini=minStack.top();
-        return mini;
+        return minele;
     }
 };
 
