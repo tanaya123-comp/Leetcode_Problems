@@ -2,7 +2,7 @@ class Solution {
 public:
     int orangesRotting(vector<vector<int>>& grid) {
         
-        int m,n,i,j,siz;
+        int m,n,i,j;
         n=grid.size();
         m=grid[0].size();
         queue<pair<int,int> > q;
@@ -12,44 +12,48 @@ public:
             {
                 if(grid[i][j]==2)
                 {
-                    q.push(make_pair(i,j));
+                    q.push({i,j});
                 }
             }
         }
-        
         int ans=0;
+        int k;
         while(!q.empty())
         {
-           
-            siz=q.size();
-             cout<<siz<<" ";
+            int siz=q.size();
+            k=0;
             while(siz--)
             {
                 pair<int,int> p=q.front();
                 q.pop();
                 i=p.first;
                 j=p.second;
-                if((i-1)>=0&&grid[i-1][j]==1)
-                {
-                    grid[i-1][j]=2;
-                    q.push(make_pair(i-1,j));
-                }
                 if((j-1)>=0&&grid[i][j-1]==1)
                 {
+                    k++;
                     grid[i][j-1]=2;
-                    q.push(make_pair(i,j-1));
-                }
-                if((i+1)<n&&grid[i+1][j]==1)
-                {
-                    grid[i+1][j]=2;
-                    q.push(make_pair(i+1,j));
+                    q.push({i,j-1});
                 }
                 if((j+1)<m&&grid[i][j+1]==1)
                 {
+                    k++;
                     grid[i][j+1]=2;
-                    q.push(make_pair(i,j+1));
+                    q.push({i,j+1});
+                }
+                if((i-1)>=0&&grid[i-1][j]==1)
+                {
+                    k++;
+                    grid[i-1][j]=2;
+                    q.push({i-1,j});
+                }
+                if((i+1)<n&&grid[i+1][j]==1)
+                {
+                    k++;
+                    grid[i+1][j]=2;
+                    q.push({i+1,j});
                 }
             }
+            if(k>0)
             ans++;
         }
         for(i=0;i<n;i++)
@@ -62,11 +66,6 @@ public:
                 }
             }
         }
-        if(ans==0)
-        {
-            return 0;
-        }
-        return ans-1;
-        
+        return ans;
     }
 };
