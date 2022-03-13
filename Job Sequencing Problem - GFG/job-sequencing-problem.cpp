@@ -23,10 +23,12 @@ struct Job
 };
 */
 
-bool comparison(Job a, Job b)
+
+bool tocompare(Job a,Job b)
 {
-     return (a.profit > b.profit);
+    return a.profit>b.profit;
 }
+
 
 class Solution 
 {
@@ -36,49 +38,37 @@ class Solution
     //Function to find the maximum profit and the number of jobs done.
     vector<int> JobScheduling(Job arr[], int n) 
     { 
-        // your code here
-      sort(arr, arr+n, comparison);
-      vector<int> jobs;
-
-        int result[n]; // To store result (Sequence of jobs)
-        bool slot[n];  // To keep track of free time slots
-    
-        // Initialize all slots to be free
-        for (int i=0; i<n; i++)
-            slot[i] = false;
-    
-        // Iterate through all given jobs
-        for (int i=0; i<n; i++)
-        {
-           // Find a free slot for this job (Note that we start
-           // from the last possible slot)
-           for (int j=min(n, arr[i].dead)-1; j>=0; j--)
-           {
-              // Free slot found
-              if (slot[j]==false)
-              {
-                 result[j] = i;  // Add this job to result
-                 slot[j] = true; // Make this slot occupied
-                 break;
-              }
-           }
-        }
         
-        int num_of_jobs=0;
+        sort(arr,arr+n,tocompare);
+        
+        vector<int> slot(n);
+        int number_of_jobs=0;
         int max_profit=0;
+        
         for(int i=0;i<n;i++)
         {
-            if(slot[i])
+            slot[i]=false;
+        }
+        
+        for(int i=0;i<n;i++)
+        {
+            for(int j=min(n,arr[i].dead)-1;j>=0;j--)
             {
-                num_of_jobs++;
-                max_profit=max_profit+arr[result[i]].profit;
+                if(slot[j]==false)
+                {
+                    slot[j]=true;
+                    number_of_jobs++;
+                   // cout<<arr[i].id<<" ";
+                    max_profit=max_profit+arr[i].profit;
+                    break;
+                }
             }
         }
-        jobs.push_back(num_of_jobs);
-        jobs.push_back(max_profit);
-        return jobs;
-    
-    
+        
+        vector<int> ans;
+        ans.push_back(number_of_jobs);
+        ans.push_back(max_profit);
+        return ans;
     } 
 };
 
