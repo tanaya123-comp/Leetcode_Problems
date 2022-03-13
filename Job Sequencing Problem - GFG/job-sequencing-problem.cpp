@@ -41,18 +41,24 @@ class Solution
         
         sort(arr,arr+n,tocompare);
         
-        vector<int> slot(n+1);
+        int maxi=arr[0].dead;
+        for(int i=0;i<n;i++)
+        {
+            maxi=max(maxi,arr[i].dead);
+        }
+        
+        vector<int> slot(maxi+1);
         int number_of_jobs=0;
         int max_profit=0;
         
-        for(int i=0;i<n;i++)
+        for(int i=0;i<maxi;i++)
         {
             slot[i]=false;
         }
         
         for(int i=0;i<n;i++)
         {
-            for(int j=min(n,arr[i].dead);j>=1;j--)
+            for(int j=arr[i].dead;j>=1;j--)
             {
                 if(slot[j]==false)
                 {
