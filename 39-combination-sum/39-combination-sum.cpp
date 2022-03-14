@@ -1,44 +1,48 @@
 class Solution {
 public:
     
-    vector<vector<int> > ans;
-    set<vector<int> > s;
-    int n;
+    vector<vector<int> > allCombinations;
+    set<vector<int> > uniqueCombinations;
     
-    void solve(int target,int sum,vector<int> vec,int i,vector<int>& cand)
+    void combinationSumRec(vector<int> &candidates,int target,int sum,vector<int> combination,int n)
     {
-        if(i==n)
+        if(sum==target)
+        {
+            uniqueCombinations.insert(combination);
+            return;
+        }
+        if(n==0)
         {
             return;
         }
-        if(sum==target)
+        if(sum>target)
         {
-            cout<<sum<<"\n";
-            if(s.find(vec)==s.end())
-            {
-                s.insert(vec);
-            }
+            return;
         }
-        if(sum+cand[i]<=target)
-        {
-            vec.push_back(cand[i]);
-            solve(target,sum+cand[i],vec,i,cand);
-            vec.pop_back();
-            solve(target,sum,vec,i+1,cand);
-        }
+        
+        combinationSumRec(candidates,target,sum,combination,n-1);
+        
+        combination.push_back(candidates[n-1]);
+        
+        combinationSumRec(candidates,target,sum+candidates[n-1],combination,n);
+        
     }
     
-    vector<vector<int>> combinationSum(vector<int>& candidates, int target)
-    {
-        sort(candidates.begin(),candidates.end());
-        n=candidates.size();
-        vector<int> vec;
-        solve(target,0,vec,0,candidates);
-        for(auto x:s)
-        {
-            ans.push_back(x);
-        }
-        return ans;
+    
+    
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
         
+        sort(candidates.begin(),candidates.end());
+        
+        vector<int> combination;
+        
+        combinationSumRec(candidates,target,0,combination,candidates.size());
+        
+        for(auto x:uniqueCombinations)
+        {
+            allCombinations.push_back(x);
+        }
+        
+        return allCombinations;
     }
 };
