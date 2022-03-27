@@ -7,35 +7,32 @@ class Solution {
   public:
     // Function to return a list containing the DFS traversal of the graph.
     
-    void dfsOfGraphRec(vector<bool> &visited,vector<int> adj[],int index,vector<int> &dfs)
+    void getDfs(vector<int> adj[],vector<bool> &visited,vector<int> &dfs,int i)
     {
-           visited[index]=true;
-           dfs.push_back(index);
-           
-           for(int i=0;i<adj[index].size();i++)
-           {
-               if(visited[adj[index][i]]==false)
-               {
-                   dfsOfGraphRec(visited,adj,adj[index][i],dfs);
-               }
-           }
-            
+        visited[i]=true;
+        dfs.push_back(i);
+        
+        for(auto x:adj[i])
+        {
+            if(visited[x]==false)
+                getDfs(adj,visited,dfs,x);
+        }
     }
     
     vector<int> dfsOfGraph(int V, vector<int> adj[]) {
-
+        // Code here
+        
         vector<int> dfs;
         vector<bool> visited(V,false);
         
         for(int i=0;i<V;i++)
         {
             if(visited[i]==false)
-            {
-                
-                dfsOfGraphRec(visited,adj,i,dfs);
-            }
+                getDfs(adj,visited,dfs,i);
         }
+        
         return dfs;
+        
     }
 };
 
