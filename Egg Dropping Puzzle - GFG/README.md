@@ -1,5 +1,5 @@
 # Egg Dropping Puzzle
-## Medium 
+##  Medium 
 <div class="problem-statement">
                 <p></p><p><span style="font-size:18px">You are given <strong>N</strong> identical eggs and you have access to a <strong>K</strong>-floored building from&nbsp;<strong>1</strong>&nbsp;to&nbsp;<strong>K</strong>.</span></p>
 
