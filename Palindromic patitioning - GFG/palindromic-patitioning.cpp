@@ -9,6 +9,8 @@ using namespace std;
 
 class Solution{
 public:
+    int dp[1000][1000];
+    
    bool isPallindrome(string s,int i,int j)
     {
         while(i<=j)
@@ -25,30 +27,6 @@ public:
         }
         return true;
     }
-    int dp[1000][1000];
-    int solve(string s,int i,int j)
-    {
-        if(dp[i][j]!=-1)
-        {
-            return dp[i][j];
-        }
-        
-        if(isPallindrome(s,i,j))
-        {
-            return dp[i][j]=0;
-        }
-        
-        int ans=INT_MAX;
-        
-        for(int k=i;k<=j;k++)
-        {
-            if(isPallindrome(s,i,k))
-            {
-                ans=min(ans,1+solve(s,k+1,j));
-            }
-        }
-        return dp[i][j]=ans;
-    }
 
     int palindromicPartition(string str)
     {
@@ -60,8 +38,32 @@ public:
                 dp[i][j]=-1;
             }
         }
-        int ans=solve(str,0,n-1);
-        return ans;
+        
+        for(int i=0;i<n;i++)
+        {
+            dp[i][i]=0;
+        }
+        
+        for(int k=2;k<=n;k++)
+        {
+            for(int i=0;i<=n-k;i++)
+            {
+                int j=i+k-1;
+                if(isPallindrome(str,i,j))
+                {
+                    dp[i][j]=0;
+                    continue;
+                }
+                int ans=INT_MAX;
+                for(int t=i;t<j;t++)
+                {
+                    ans=min(ans,dp[i][t]+dp[t+1][j]+1);
+                }
+                dp[i][j]=ans;
+            }
+        }
+        
+        return dp[0][n-1];
     }
 };
 
