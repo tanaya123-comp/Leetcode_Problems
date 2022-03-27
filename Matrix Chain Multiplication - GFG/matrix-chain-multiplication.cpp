@@ -43,7 +43,28 @@ public:
             }
         }
         
-        return MCM(arr,1,N-1);
+        for(int i=0;i<=N;i++)
+        {
+            dp[i][i]=0;
+        }
+        
+        for(int k=2;k<=N;k++)
+        {
+            for(int i=1;i<=N-k;i++)
+            {
+                int j=i+k-1;
+                int ans=INT_MAX;
+                int temp;
+                for(int t=i;t<j;t++)
+                {
+                    temp=dp[i][t]+dp[t+1][j]+arr[i-1]*arr[t]*arr[j];
+                    ans=min(ans,temp);
+                }
+                dp[i][j]=ans;
+            }
+        }
+        
+        return dp[1][N-1];
         
     }
 };
