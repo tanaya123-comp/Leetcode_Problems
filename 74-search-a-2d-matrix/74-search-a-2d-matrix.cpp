@@ -1,59 +1,22 @@
 class Solution {
 public:
-    bool searchMatrix(vector<vector<int>>& matrix, int target) {
-        
-        int row,col;
-        row=matrix.size();
-        col=matrix[0].size();
-        int i;
-        int low,mid,high;
+    bool searchMatrix(vector<vector<int>>& matrix, int target) 
+    {
+        int n,m,low,mid,high,flag;
+        n=matrix.size();
+        m=matrix[0].size();
         low=0;
-        high=row-1;
+        high=n-1;
+        flag=0;
         while(low<=high)
         {
             mid=(low+high)/2;
-            //cout<<mid<<"\n";
-            if(matrix[mid][0]==target)
+            if(matrix[mid][0]<=target&&matrix[mid][m-1]>=target)
             {
-                return true;
+                flag=1;
+                break;
             }
-            else if(matrix[mid][0]>target)
-            {
-                high=mid-1;
-            }
-            else if(matrix[mid][0]<=target)
-            {
-                if(matrix[mid][col-1]==target)
-                {
-                    return true;
-                }
-                else if(matrix[mid][col-1]<target)
-                {
-                    low=mid+1;
-                }
-                else
-                {
-                  //  cout<<"here"<<low<<"\n";
-                    break;
-                }
-            }
-        }
-        if(low>high)
-        {
-            return false;
-        }
-     //   cout<<low<<"\n";
-        i=mid;
-        low=0;
-        high=col-1;
-        while(low<=high)
-        {
-            mid=(low+high)/2;
-            if(matrix[i][mid]==target)
-            {
-                return true;
-            }
-            else if(matrix[i][mid]<target)
+            else if(matrix[mid][m-1]<target)
             {
                 low=mid+1;
             }
@@ -62,8 +25,25 @@ public:
                 high=mid-1;
             }
         }
+        if(flag==0)
+        {
+            return false;
+        }
+        
+        low=0;
+        high=m-1;
+        int r=mid;
+        while(low<=high)
+        {
+            mid=(low+high)/2;
+            if(matrix[r][mid]==target)
+                return true;
+            if(matrix[r][mid]>target)
+                high=mid-1;
+            else
+                low=mid+1;
+        }
         
         return false;
-        
     }
 };
