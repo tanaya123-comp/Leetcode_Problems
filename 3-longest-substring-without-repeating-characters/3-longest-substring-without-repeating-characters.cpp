@@ -1,41 +1,39 @@
 class Solution {
 public:
-    int lengthOfLongestSubstring(string s) 
-    {
-        if(s.length()==0)
-        {
-            return 0;
-        }
-        int ans=1;
+    int lengthOfLongestSubstring(string s) {
+        
         int n=s.length();
         int i,j,k;
+        vector<int> mp(256,0);
+        int ans=0;
         i=0;
         j=0;
-        unordered_map<int,int> vec;
-        while(i<=j&&j<n)
+        while(i<n)
         {
-            vec[s[j]]++;
-            if(vec[s[j]]==1)
+          
+            if(mp[s[i]]==0)
             {
-                j++;
+                mp[s[i]]++;
+                 ans=max(ans,i-j+1);
+                i++;
             }
             else
             {
-                ans=max(ans,j-i);
-                while(i<j&&vec[s[i]]==1)
+                while(j<=i)
                 {
-                    vec[s[i]]--;
-                    i++;
+                    if(mp[s[j]]==1)
+                    {
+                        mp[s[j]]--;
+                        break;
+                    }
+                    j++;
                 }
-                vec[s[i]]--;
-                i++;
                 j++;
-            }   
+            }
+           
+            
         }
-        if(i<j)
-        {
-            ans=max(ans,j-i);
-        }
+        
         return ans;
     }
 };
