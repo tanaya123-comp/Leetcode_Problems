@@ -11,36 +11,40 @@
  */
 class BSTIterator {
 public:
+    
     stack<TreeNode*> st;
     
     BSTIterator(TreeNode* root) {
-        while(root!=NULL)
+        TreeNode* temp=root;
+        while(temp!=NULL)
         {
-            st.push(root);
-            root=root->left;
+            st.push(temp);
+            temp=temp->left;
         }
-        
     }
     
     int next() {
-        int x=-1;
+        
         if(!st.empty())
         {
             TreeNode* p=st.top();
             st.pop();
-            x=p->val;
+            int x=p->val;
             p=p->right;
             while(p!=NULL)
             {
                 st.push(p);
-                p=p->left;
+                p=p->left;   
             }
+            return x;
         }
-        return x;
+        return -1;
     }
     
     bool hasNext() {
+     
         return !st.empty();
+        
     }
 };
 
