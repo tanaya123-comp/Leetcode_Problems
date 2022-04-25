@@ -39,7 +39,7 @@ public:
         {
             return true;
         }
-        return isSymmetric_rec(root->left,root->right);
+        return isSymmetric_rec(root,root);
         
     }
 };
