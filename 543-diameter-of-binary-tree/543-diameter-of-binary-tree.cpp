@@ -21,7 +21,7 @@ public:
         int lh=solve(root->left,ans);
         int rh=solve(root->right,ans);
         ans=max(ans,lh+rh);
-        cout<<lh<<" "<<rh<<" "<<root->val<<"\n";
+       // cout<<lh<<" "<<rh<<" "<<root->val<<"\n";
         return max(lh,rh)+1;
     }
     
