@@ -3,18 +3,18 @@ public:
     
     queue<int> q1,q2;
     
-    MyStack() {
-        
+    MyStack() 
+    {
+    
     }
     
-    void push(int x) {
-        
-        q1.push(x);
-        
+    void push(int x) 
+    {
+        q1.push(x);    
     }
     
-    int pop() {
-        
+    int pop() 
+    {    
         while(q1.size()>1)
         {
             q2.push(q1.front());
@@ -26,34 +26,30 @@ public:
         {
             q1.push(q2.front());
             q2.pop();
-        }    
+        }  
         return x;
     }
     
-    int top() {
-          while(q1.size()>1)
+    int top() 
+    {
+      while(q1.size()>1)
         {
             q2.push(q1.front());
             q1.pop();
         }
         int x=q1.front();
         q1.pop();
+        q2.push(x);
         while(!q2.empty())
         {
             q1.push(q2.front());
             q2.pop();
-        }  
-        q1.push(x);
+        }    
         return x;
     }
     
     bool empty() {
-        
-        if(q1.empty())
-        {
-            return true;
-        }
-        return false;
+        return q1.empty();
     }
 };
 
