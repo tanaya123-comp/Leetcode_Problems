@@ -1,10 +1,9 @@
 class Solution {
 public:
     
-    vector<vector<string> > numberOfWays;
+    vector<vector<string> > allSolutions;
     
-    //check if we can place in this row or not
-    bool isSafe(vector<string> board,int row,int col)
+   bool isSafe(vector<string> board,int row,int col)
     {
         //check if we can place in this column or not
         for(int i=row;i>=0;i--)
@@ -36,38 +35,32 @@ public:
         return true;
     }
     
-    void dfs(vector<string> &board,int row,int n)
+    void placeQ(vector<string> board,int r,int n)
     {
-        if(row>=n)
+        if(r==n)
         {
-            numberOfWays.push_back(board);
+            allSolutions.push_back(board);
             return;
         }
-        
-        //place in one-one column
         for(int i=0;i<n;i++)
         {
-            if(isSafe(board,row,i))
+            if(isSafe(board,r,i))
             {
-                board[row][i]='Q';
-                
-                dfs(board,row+1,n);
-                
-                board[row][i]='.';
+                board[r][i]='Q';
+                placeQ(board,r+1,n);
+                board[r][i]='.';
             }
         }
     }
     
     vector<vector<string>> solveNQueens(int n) {
         
-        if(n<=0)
-        {
-            return numberOfWays;
-        }
+        
         vector<string> board(n,string(n,'.'));
         
-        dfs(board,0,n);
-    
-        return numberOfWays;
+        placeQ(board,0,n);
+        
+        return allSolutions;
+        
     }
 };
