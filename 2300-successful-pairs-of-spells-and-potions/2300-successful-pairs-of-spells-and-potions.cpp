@@ -2,7 +2,6 @@ class Solution {
 public:
     vector<int> successfulPairs(vector<int>& spells, vector<int>& potions, long long success) {
         
-        
         int  n,m,i,j;
         n=spells.size();
         m=potions.size();  
@@ -37,6 +36,7 @@ public:
             
         }
         return ans;
+        
         
     }
 };
