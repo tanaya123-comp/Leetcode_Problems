@@ -1,25 +1,32 @@
 class Solution {
 public:
-    vector<vector<int>> generate(int numRows) {
-        
-        vector<vector<int> > vec;
-        vector<int> a;
-        a.push_back(1);
-        vec.push_back(a);
-        int i,j;
-        for(i=2;i<=numRows;i++)
+    vector<vector<int>> generate(int n) 
+    {    
+        vector<vector<int> > ans;
+         ans.push_back({1});
+        if(n==1)
         {
-            vector<int> b;
-            b.push_back(1);
-            for(j=1;j<=i-2;j++)
-            {
-                b.push_back(vec[i-2][j-1]+vec[i-2][j]);
-            }
-            b.push_back(1);
-            vec.push_back(b);
+            return ans;
         }
-        return vec;
         
-        
+        for(int i=2;i<=n;i++)
+        {
+           // cout<<i<<"->";
+            vector<int> temp;
+            temp.push_back(1);
+            for(int j=1;j<=i-2;j++)
+            {
+                temp.push_back(ans[i-2][j-1]+ans[i-2][j]);
+            }
+            temp.push_back(1);
+            // for(auto x:temp)
+            // {
+            //     cout<<x<<" ";
+            // }
+            // cout<<"\n";
+            //cout<<temp<<"\n";
+            ans.push_back(temp);
+        }
+        return ans;
     }
 };
