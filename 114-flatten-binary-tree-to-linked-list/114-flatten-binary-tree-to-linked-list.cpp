@@ -11,30 +11,24 @@
  */
 class Solution {
 public:
-    TreeNode* prev;
     
-    void preorder(TreeNode* root)
+    void getFlattenList(TreeNode* root,TreeNode* &prev)
     {
         if(root!=NULL)
         {
-            preorder(root->right);
-            preorder(root->left);
-         
+            getFlattenList(root->right,prev);
+            getFlattenList(root->left,prev);
             root->right=prev;
-            root->left=NULL;
             prev=root;
+            root->left=NULL;
         }
+        
     }
-    
+        
     void flatten(TreeNode* root) {
         
-        if(root==NULL||(root->left==NULL&&root->right==NULL))
-        {
-            return;
-        }
         
-        prev=NULL;
-        
-        preorder(root);
+        TreeNode* prev=NULL;
+        getFlattenList(root,prev);
     }
 };
