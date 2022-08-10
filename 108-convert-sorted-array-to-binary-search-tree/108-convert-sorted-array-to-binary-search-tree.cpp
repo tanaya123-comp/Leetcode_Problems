@@ -12,27 +12,23 @@
 class Solution {
 public:
     
-    TreeNode* BST(vector<int>& nums,int start,int end)
+    TreeNode* solve(vector<int> &nums,int l,int h)
     {
-        if(start>end)
+        if(l>h)
         {
             return NULL;
         }
-        int mid=(start+end)/2;
-        TreeNode* root=new TreeNode(nums[mid]);
-        root->left=BST(nums,start,mid-1);
-        root->right=BST(nums,mid+1,end);
+        int m=(l+h)/2;
+        TreeNode* root=new TreeNode(nums[m]);
+        root->left=solve(nums,l,m-1);
+        root->right=solve(nums,m+1,h);
         return root;
     }
     
     TreeNode* sortedArrayToBST(vector<int>& nums) {
         
         int n=nums.size();
-        if(n==0)
-        {
-            return NULL;
-        }
-        return BST(nums,0,n-1);
+        return solve(nums,0,n-1);
         
     }
 };
