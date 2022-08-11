@@ -12,28 +12,26 @@
 class Solution {
 public:
     
-    bool solve(TreeNode* root,long mini,long maxi)
+    bool isValid(TreeNode* root,long mini,long maxi)
     {
         if(root==NULL)
-        {
             return true;
-        }
-        if(root->val<maxi&&root->val>mini)
+        
+        if(root->val>mini&&root->val<maxi)
         {
-            return solve(root->left,mini,root->val)&&solve(root->right,root->val,maxi);
+            return isValid(root->left,mini,root->val)&&isValid(root->right,root->val,maxi);
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
     
     bool isValidBST(TreeNode* root) {
         
-        long  maxi=INT_MAX;
-        maxi=maxi+1;
         long mini=INT_MIN;
         mini=mini-1;
-        return solve(root,mini,maxi);
+        long maxi=INT_MAX;
+        maxi=maxi+1;
+        
+        return isValid(root,mini,maxi);
+        
     }
 };
