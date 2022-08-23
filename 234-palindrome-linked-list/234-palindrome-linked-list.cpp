@@ -11,11 +11,11 @@
 class Solution {
 public:
     
-    ListNode* reverse(ListNode* t)
+    ListNode* reverse(ListNode* head)
     {
-        ListNode* prev,*curr,*next;
+        ListNode* curr,*prev,*next;
+        curr=head;
         prev=NULL;
-        curr=t;
         while(curr!=NULL)
         {
             next=curr->next;
@@ -23,56 +23,66 @@ public:
             prev=curr;
             curr=next;
         }
+        
         return prev;
+        
     }
     
-    
-    int count(ListNode* root)
+    bool isPallindrome(ListNode* head1,ListNode* head2)
     {
-        int len=0;
-        while(root!=NULL)
+        while(head1!=NULL&&head2!=NULL)
         {
-            len++;
-            root=root->next;
-        }
-        return len;
-    }
-    
-    
-    
-    
-    
-    
-    bool isPalindrome(ListNode* head) {
-        
-        int n=count(head);
-        int mid=(n/2)+(n%2);
-        
-        ListNode* p=head;
-        for(int i=0;i<mid-1;i++){
-            p=p->next;
-        }
-        
-        p->next=reverse(p->next);
-        
-        ListNode* q=p->next;
-        
-        p=head;
-        
-        
-        
-        while(p!=NULL&&q!=NULL)
-        {
-            if(p->val!=q->val)
+            if(head1->val!=head2->val)
             {
                 return false;
             }
-            p=p->next;
-            q=q->next;
+            else
+            {
+                head1=head1->next;
+                head2=head2->next;
+            }
         }
         return true;
-       
+    }
+    
+    bool isPalindrome(ListNode* head) {
         
-         
+        int n=0;
+        if(head==NULL||head->next==NULL)
+            return true;
+        ListNode* root=head;
+        ListNode* first,*second;
+        while(root!=NULL)
+        {
+            n++;
+            root=root->next;
+        }
+        
+        if(n%2==0)
+        {
+            first=head;
+            second=head;
+            while(first!=NULL&&second!=NULL&&second->next!=NULL)
+            {
+                first=first->next;
+                second=second->next->next;
+            }
+            second=reverse(first);
+            first=head;
+          
+        }
+        else
+        {
+            first=head;
+            second=head;
+            while(first!=NULL&&second!=NULL&&second->next!=NULL)
+            {
+                first=first->next;
+                second=second->next->next;
+            }
+            second=reverse(first->next);
+            first=head;
+        }
+          return isPallindrome(first,second);
     }
 };
