@@ -1,10 +1,10 @@
 class NumMatrix {
 public:
     
-    vector<vector<int> > dp2;
+      vector<vector<int> > dp2;
     
-    NumMatrix(vector<vector<int>>& matrix) {
-        
+    NumMatrix(vector<vector<int>>& matrix) 
+    {    
         int n,m,i,j;
         n=matrix.size();
         m=matrix[0].size();
@@ -34,20 +34,12 @@ public:
         }
         
         dp2=dp;
+        
     }
     
     int sumRegion(int row1, int col1, int row2, int col2) 
     {
-        
-        // for(int i=0;i<dp2.size();i++)
-        // {
-        //     for(int j=0;j<dp2[0].size();j++)
-        //     {
-        //         cout<<dp2[i][j]<<" ";
-        //     }
-        //     cout<<"\n";
-        // }
-        if(row1==0&&col1==0)
+         if(row1==0&&col1==0)
         {
             return dp2[row2][col2];
         }
